@@ -8,18 +8,29 @@ import { WeatherApiService } from 'src/app/services/weather-api.service';
   styleUrls: ['./weather.component.css']
 })
 export class WeatherComponent implements OnInit {
+
+  cityName:string = 'chennai'
   weatherdata?:WeatherData;
 
   constructor( private weatherService:WeatherApiService) { }
 
   ngOnInit(): void {
-    this.weatherService.getWeatherData('london').subscribe({
-      next:(res) => {
-        this.weatherdata = res;
-        console.log(res);
-      } 
-    });
+    this.getWeather(this.cityName);
   }
 
+  private getWeather(cityName:string){
+    this.weatherService.getWeatherData(cityName).subscribe({
+    next:(res) => {
+      this.weatherdata = res;
+      console.log(res);
+    } 
+  });
+
+  }
+
+  onSubmit(){
+    this.getWeather(this.cityName);
+    this.cityName = '';
+  }
  
 }
